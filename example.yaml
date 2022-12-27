@@ -1,0 +1,60 @@
+# put this in your configuration.yaml Change the IP!
+# Devices can be used in automations; like : Action ::  - service: rest_command.stand3_30min
+# It gives some error's in the log. No time to investigate
+
+# REST Sensor data for qstream
+sensor:
+  - platform: rest
+    name: QstreamStatus
+    resource: http://192.168.XX.XX/Status
+    method: GET
+    scan_interval: 5
+  - platform: template
+    sensors:
+      qstreamtimer:
+        value_template: "{% set string = states('sensor.qstreamstatus') %} {% set list1 = string.split(' ') %} {{ list1[3] }}"
+        entity_id: sensor.QstreamStatus
+      qstreamqanaloog:
+        value_template: "{% set string = states('sensor.qstreamstatus') %} {% set list1 = string.split(' ') %} {{ list1[6] }}"
+        entity_id: sensor.QstreamStatus
+      qstreamqset:
+        value_template: "{% set string = states('sensor.qstreamstatus') %} {% set list1 = string.split(' ') %} {{ list1[8] }}"
+        entity_id: sensor.QstreamStatus
+      qstreamqactual:
+        value_template: "{% set string = states('sensor.qstreamstatus') %} {% set list1 = string.split(' ') %} {{ list1[10] }}"
+        entity_id: sensor.QstreamStatus
+
+# Rest command for qstream
+rest_command:
+  stand1_05min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 05 MIN 24% DEMAND CONTROL OFF DAY"}'
+  stand1_10min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 10 MIN 24% DEMAND CONTROL OFF DAY"}'
+  stand1_30min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 30 MIN 24% DEMAND CONTROL OFF DAY"}'
+  stand2_30min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 30 MIN 41% DEMAND CONTROL OFF DAY"}'
+  stand3_30min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 30 MIN 62% DEMAND CONTROL OFF DAY"}'
+  stand4_30min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 30 MIN 74% DEMAND CONTROL OFF DAY"}'
+  stand5_30min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 30 MIN 99% DEMAND CONTROL OFF DAY"}'
+  boost_10min:
+    url: "http://192.168.XX.XX/Timer"
+    method: POST
+    payload: '{"Value":"TIMER 10 MIN 100% DEMAND CONTROL OFF DAY"}'
